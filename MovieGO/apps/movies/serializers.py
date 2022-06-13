@@ -1,3 +1,5 @@
+from pyexpat import model
+from matplotlib.pyplot import title
 from rest_framework import serializers
 
 from .models import Movie, Review, Rating, Actor
@@ -30,10 +32,11 @@ class MovieListSerializer(serializers.ModelSerializer):
     """Список фильмов"""
     rating_user = serializers.BooleanField()
     middle_star = serializers.IntegerField()
+    movie = serializers.CharField(read_only=True)
 
     class Meta:
         model = Movie
-        fields = ("id", "title",  "category", "rating_user", "middle_star", "poster","description")
+        fields = ("id", "title",  "category", "rating_user", "middle_star", "poster","description","movie")
 
 class ReviewCreateSerializer(serializers.ModelSerializer):
     """Добавление отзыва"""
@@ -80,3 +83,10 @@ class CreateRatingSerializer(serializers.ModelSerializer):
             defaults={'star': validated_data.get("star")}
         )
         return rating
+
+# class RecomendSerializer(serializers.ModelSerializer):
+
+#     class Meta:
+#         model = Recomend
+#         fields = "__all__"
+    

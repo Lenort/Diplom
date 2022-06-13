@@ -5,10 +5,12 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from . import views, api
 
 urlpatterns = format_suffix_patterns([
+    path('', views.index),
     path("movie/", views.MovieViewSet.as_view({'get': 'list'})),
     path("movie/<int:pk>/", views.MovieViewSet.as_view({'get': 'retrieve'})),
     path("review/", views.ReviewCreateViewSet.as_view({'post': 'create'})),
     path("rating/", views.AddStarRatingViewSet.as_view({'post': 'create'})),
     path('actor/', views.ActorsViewSet.as_view({'get': 'list'})),
+    # path("recomend/", views.RecomendViewset.as_view({'get': 'list'})),
     path('actor/<int:pk>/', views.ActorsViewSet.as_view({'get': 'retrieve'})),
 ])

@@ -55,6 +55,7 @@ class MovieAdmin(admin.ModelAdmin):
     save_as = True
     list_editable = ("draft",)
     actions = ["publish", "unpublish"]
+
     # form = MovieAdminForm
     readonly_fields = ("get_image",)
     fieldsets = (
@@ -114,7 +115,7 @@ class GenreAdmin(admin.ModelAdmin):
 @admin.register(Rating)
 class RatingAdmin(admin.ModelAdmin):
     """Рейтинг"""
-    list_display = ("star", "ip")
+    list_display = ("star", "ip",)
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):

@@ -7,13 +7,6 @@ from django.urls import reverse
 
 from django.urls import reverse
 
-
-
-
-
-
-
-
 class Category(models.Model):
     """Категории"""
     name = models.CharField("Категория",max_length=100)
@@ -75,8 +68,10 @@ class Movie(models.Model):
     category = models.ForeignKey(
         Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True
     )
+    avgrating = models.IntegerField(default=0)
     url = models.SlugField(max_length=130, unique=True)
     draft = models.BooleanField("Черновик", default=False)
+    
     def __str__(self):
         return self.title
 
@@ -102,18 +97,24 @@ class RatingStar(models.Model):
         verbose_name_plural = "Звезды рейтинга"
         ordering = ["-value"]
 
+
 class Rating(models.Model):
     """Рейтинг"""
     ip = models.CharField("IP адрес", max_length=15)
     star = models.ForeignKey(RatingStar, on_delete=models.CASCADE, verbose_name="звезда")
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, verbose_name="фильм")
+    ratings = models.ForeignKey(Movie, on_delete=models.CASCADE,verbose_name="Фильм",related_name="ratings")
+
 
     def __str__(self):
-        return f"{self.star - self.movie}"
- 
+        return f"{self.star} - {self.ratings}"
+
     class Meta:
         verbose_name = "Рейтинг"
         verbose_name_plural = "Рейтинги"
+
+
+
+
 
 class Review(models.Model):
     """Отзывы"""
@@ -125,7 +126,7 @@ class Review(models.Model):
     )
     movie = models.ForeignKey(Movie, verbose_name="фильм", on_delete=models.CASCADE)
 
-    def __str__(self):
+    def __int__(self):
         return f"{self.name - self.movie}"
 
     class Meta:
@@ -145,6 +146,4 @@ class MovieShots(models.Model):
     class Meta:
         verbose_name = "Кадр из фильма"
         verbose_name_plural = "Кадры из фильма"
-
-
 

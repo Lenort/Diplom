@@ -77,13 +77,15 @@ class ActorsViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 def index(request):
+    movies = Movie.objects.all()
+    
 
     sqlite_connection = sqlite3.connect('db.sqlite3')
     cur = sqlite_connection.cursor()
     one_result = cur.execute("""SELECT title, avg(value) FROM movies_movie  JOIN movies_rating ON movies_movie.id  =  movies_rating.ratings_id JOIN movies_ratingstar ON movies_rating.star_id = movies_ratingstar.id  GROUP BY movies_movie.id HAVING avg(value) > 1.0 LIMIT 5""").fetchall()
-    print(len(one_result))
+    print(one_result)
     data = {"recomend":one_result}
-    return render(request, 'movies/index.html',context=data)
+    return render(request, 'movies/index.html',{'movies':movies})
 
 
 

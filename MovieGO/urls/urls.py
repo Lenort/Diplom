@@ -18,10 +18,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from apps.account.views import (
+    registration_view,
+    logout_view,
+    login_view,
+    account_view,
+    must_authenticate_view,
+)
 
 
 urlpatterns = [
-    path('',include("movies.urls")),
+    path('',include("movies.urls"), name='home'),
     path('api/admin/', admin.site.urls),
     path('api/api-auth/', include('rest_framework.urls')),
     path('api/ckeditor/', include('ckeditor_uploader.urls')),
@@ -30,6 +37,10 @@ urlpatterns = [
     path('api/auth/', include('djoser.urls.authtoken')),
     path('api/auth/', include('djoser.urls.jwt')),
     path('api/v1/', include('movies.urls')),
+    path('api/v2/',include('account.urls')),
+  
+
+     path('api/account/', include('account.api.urls', 'account_api')),
 
 ]
 
